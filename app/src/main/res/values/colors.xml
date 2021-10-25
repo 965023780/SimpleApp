@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <!--clockView-->
+    <color name="clockMinute">#75EEE3D5</color>
+    <color name="clockHour">#FFBE64</color>
+    <color name="clockPeriod">#FF9800</color>
+    <color name="clockSecond">#A9000000</color>
+    <color name="clockText">#FFFFFF</color>
+    <color name="clockTimeText">#000000</color>
+
+</resources>
