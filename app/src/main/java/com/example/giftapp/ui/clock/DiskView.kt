@@ -34,8 +34,9 @@ abstract class DiskView: View{
 
     constructor(context: Context,attr: AttributeSet):super(context,attr)
 
-    abstract fun drawDisk(canvas: Canvas?)
-    abstract fun drawCircle(canvas: Canvas?)
+    protected abstract fun drawDisk(canvas: Canvas?)
+    protected abstract fun drawCircle(canvas: Canvas?)
+    abstract fun setTime(time: Int)
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
@@ -75,7 +76,7 @@ abstract class DiskView: View{
     protected fun computeDistFromCenter(x: Float, y: Float): Float =
         sqrt( ((x - cx) * (x - cx) + (y - cy) * (y - cy)).toDouble()).toFloat()
 
-    private fun computeCurrentAngle(x: Float, y: Float): Float{
+    protected fun computeCurrentAngle(x: Float, y: Float): Float{
         val dist = computeDistFromCenter(x, y)
         return if(y < cy){
             (-180 * acos((x - cx) / dist.toDouble()) / PI).toFloat()

@@ -38,6 +38,14 @@ class PeriodView : DiskView {
 
     constructor(context: Context, attr: AttributeSet) : super(context, attr)
 
+    override fun setTime(time: Int) {
+        val newPeriodTime = if(time <= 12) PeriodTime.AM else PeriodTime.PM
+        if(curPeriod != newPeriodTime){
+            curPeriod = newPeriodTime
+            postInvalidate()
+        }
+    }
+
     override fun drawDisk(canvas: Canvas?) {
         drawCircle(canvas)
         drawPeriod(canvas)

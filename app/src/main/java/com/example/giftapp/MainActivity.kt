@@ -18,11 +18,11 @@ class MainActivity : AppCompatActivity(), ClockView.ClockViewListener {
         TODO("Not yet implemented")
     }
 
-    override fun onMinutChanged() {
+    override fun onMinuteChanged() {
         TODO("Not yet implemented")
     }
 
-    override fun onSecondCgabed() {
+    override fun onSecondChanged() {
         TODO("Not yet implemented")
     }
 }

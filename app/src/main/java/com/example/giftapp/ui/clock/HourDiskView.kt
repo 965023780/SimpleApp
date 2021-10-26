@@ -28,6 +28,14 @@ class HourDiskView : DiskView {
 
     constructor(context: Context, attr: AttributeSet) : super(context, attr)
 
+    override fun setTime(time: Int) {
+        val newDegree =time / 12f * 360
+        if(curDegree != newDegree){
+            curDegree = newDegree
+            postInvalidate()
+        }
+    }
+
     override fun drawDisk(canvas: Canvas?) {
         drawCircle(canvas)
         drawNumber(canvas)

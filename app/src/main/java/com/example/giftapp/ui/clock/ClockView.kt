@@ -2,6 +2,7 @@ package com.example.giftapp.ui.clock
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -38,15 +39,15 @@ class ClockView : ViewGroup {
     }
 
     private val holder by lazy{
-        ClockViewHolder()
+        ClockViewHolder(this)
     }
 
     interface ClockViewListener {
         fun onHourChanged()
 
-        fun onMinutChanged()
+        fun onMinuteChanged()
 
-        fun onSecondCgabed()
+        fun onSecondChanged()
     }
 
     lateinit var clockViewListener: ClockViewListener
@@ -74,6 +75,7 @@ class ClockView : ViewGroup {
         clockTime.setTextColor(ContextCompat.getColor(context, R.color.clockTimeText))
         clockTime.text = "00:00"
         addView(clockTime)
+        holder.startTimer()
     }
 
     constructor(context: Context) : super(context)
@@ -106,22 +108,50 @@ class ClockView : ViewGroup {
         }
     }
 
+    @Synchronized
+    fun setTime(curSecond: Int, curMinute: Int, curHour: Int){
+        secondView.setTime(curSecond)
+        minuteView.setTime(curMinute)
+        hourView.setTime(curHour)
+        periodView.setTime(curHour)
+        clockTime.post {    clockTime.text  = "$curHour:$curMinute" }
+    }
 
-    class ClockViewHolder{
+    class ClockViewHolder(private val clockView: ClockView){
         var curSecond = 0
         var curMinute = 0
         var curHour = 0
+        private val clockTimer by lazy{
+            Timer()
+        }
 
         init{
             val calendar = Calendar.getInstance()
             curSecond = calendar.get(Calendar.SECOND)
             curMinute = calendar.get(Calendar.MINUTE)
             curHour = calendar.get(Calendar.HOUR)
+            clockView.setTime(curSecond, curMinute, curHour)
         }
 
+        fun startTimer(){
+            clockTimer.schedule(object: TimerTask(){
+                override fun run() {
+                    curSecond = (curSecond + 1) % 60
+                    if(curSecond == 0){
+                        curMinute = (curMinute + 1) % 60
+                        if(curMinute == 0){
+                            curHour = (curHour + 1) % 60
+                        }
+                    }
+                    clockView.setTime(curSecond, curMinute, curHour)
+                }
+            },0,1000)
+        }
 
-
-
+        fun stopTimer(){
+            clockTimer.cancel()
+        }
     }
 
 }
+
